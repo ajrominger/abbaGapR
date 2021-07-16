@@ -1,2 +1,2 @@
 # abbaGapR
-(DNA) __A__mplicon-__b__ased __B__iodiversity __A__sessement gap analysis in R
+(DNA) **A**mplicon-**b**ased **B**iodiversity **A**sessement gap analysis in R
