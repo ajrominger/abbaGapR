@@ -1,3 +1,19 @@
+#' Download sequences and metadata from GenBank by unique identifier
+#'
+#' @param id character vector of unique ID(s) for records in database
+#'
+#' @return a list with two elements: \code{data} contains the metadata for each
+#' sequence; and \code{dna} contains a character vector (same length as number
+#' of rows of \code{data}) where each element is a FASTA-formatted DNA sequence
+#' matched to the metadata by accession.version number
+#'
+#'  @examples
+#'  \dontrun{
+#'  foo <- getGenBankSeqs(c('1331395866', '1679378317'))
+#' }
+#'
+#' @export
+
 getGenBankSeqs <- function(id) {
     # get the raw record
     raw <- rentrez::entrez_fetch(db = 'nuccore', id = id,
@@ -38,14 +54,14 @@ getGenBankSeqs <- function(id) {
 }
 
 
-
+# helper function to parse the 'feature table'
 parseFeatTab <- function(featTab) {
+    # make nested list into a flat, named vector
     featTab <- unlist(featTab)
 
     # gather info into data.frame
     info <- data.frame(
         # info about genomic region
-        # regionType = featTab['INSDFeature.INSDFeature_key'],
         region = extractFeatByName('gene', featTab),
         product = extractFeatByName('product', featTab),
         organelle = extractFeatByName('organelle', featTab),
@@ -64,6 +80,7 @@ parseFeatTab <- function(featTab) {
     return(info)
 }
 
+# helper function to extract features by their names
 extractFeatByName <- function(name, featTab) {
     index <- which(grepl('INSDQualifier_name', names(featTab)) &
                        featTab == name) + 1
@@ -80,11 +97,8 @@ extractFeatByName <- function(name, featTab) {
     return(out)
 }
 
+# helper function to format sequences into FASTA format
 formatFASTA <- function(dbID, dnaSeq) {
     paste0('>', dbID, '\n', dnaSeq)
 }
-
-
-# test
-# foo <- getGenBankSeqs(c('1331395866', '1679378317'))
 
