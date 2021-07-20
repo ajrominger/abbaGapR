@@ -6,29 +6,35 @@ getGenBankSeqs <- function(id) {
     # convert XML to list
     rawList <- XML::xmlToList(raw)
 
-    # get easy to retrieve data
-    dat <- data.frame(
-        accession = rawList$INSDSeq$`INSDSeq_accession-version`,
-        species = rawList$INSDSeq$INSDSeq_organism,
-        date = rawList$INSDSeq$`INSDSeq_create-date`,
-        pubmed = rawList$INSDSeq$INSDSeq_references$INSDReference$
-            INSDReference_pubmed
-    )
+    # loop over list and extract needed info
+    out <- lapply(rawList, function(l) {
+        # get easy to retrieve data
+        dat <- data.frame(
+            accession = l$`INSDSeq_accession-version`,
+            species = l$INSDSeq_organism,
+            date = l$`INSDSeq_create-date`,
+            pubmed = l$INSDSeq_references$INSDReference$INSDReference_pubmed
+        )
 
-    # get taxonomy
-    tax <- data.frame(taxonomy = rawList$INSDSeq$INSDSeq_taxonomy)
+        # extract feature table
+        featTab <- l$`INSDSeq_feature-table`
 
-    # extract feature table
-    featTab <- rawList$INSDSeq$`INSDSeq_feature-table`
+        # browser()
+        # add data from feature table
+        dat <- cbind(dat, parseFeatTab(featTab))
 
-    # add data from feature table
-    dat <- cbind(dat, parseFeatTab(featTab))
+        # add sequence to data.frame (will be sepparated after loop)
+        dat$dna <- l$INSDSeq_sequence
 
-    # extract sequence and format it as FASTA
-    dnaFASTA <- formatFASTA(dat$accession,
-                            rawList$INSDSeq$INSDSeq_sequence)
+        return(dat)
+    })
 
-    return(list(data = dat, taxonmy = tax, dna = dnaFASTA))
+
+    out <- do.call(rbind, out)
+    dna <- formatFASTA(out$accession, out$dna)
+    out <- out[, names(out) != 'dna']
+
+    return(list(data = out, dna = dna))
 }
 
 
@@ -79,5 +85,6 @@ formatFASTA <- function(dbID, dnaSeq) {
 }
 
 
-getGenBankSeqs('1331395866')
-getGenBankSeqs('1679378317')
+# test
+# foo <- getGenBankSeqs(c('1331395866', '1679378317'))
+
