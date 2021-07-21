@@ -18,6 +18,7 @@ getNCBISeqID <- function(spp) {
                                                   collapse = ' OR '),
                                      retmax = 5e+04)
 
+    # note: can search for loci with something like this: 16S[All Fields] AND "foo"[Organism]
     return(seqIDs$ids)
 
 }
