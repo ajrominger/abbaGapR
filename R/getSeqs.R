@@ -26,16 +26,22 @@ getGenBankSeqs <- function(id) {
     out <- lapply(rawList, function(l) {
         # get easy to retrieve data
         dat <- data.frame(
-            accession = l$`INSDSeq_accession-version`,
-            species = l$INSDSeq_organism,
-            date = l$`INSDSeq_create-date`,
-            pubmed = l$INSDSeq_references$INSDReference$INSDReference_pubmed
+            accession = extractSafely(l$`INSDSeq_accession-version`),
+            species = extractSafely(l$INSDSeq_organism),
+            date = extractSafely(l$`INSDSeq_create-date`),
+            pubmed = extractSafely(l$INSDSeq_references$INSDReference$
+                                       INSDReference_pubmed)
         )
+
+        # look for other publication info
+        rawUnlist <- unlist(rawList)
+        pubDOI <- grep('doi', rawUnlist, ignore.case = TRUE) + 1
+        pubDOI <- unique(rawUnlist[pubDOI])
+        dat$pubDOI <- paste(pubDOI, collapse = '; ')
 
         # extract feature table
         featTab <- l$`INSDSeq_feature-table`
 
-        # browser()
         # add data from feature table
         dat <- cbind(dat, parseFeatTab(featTab))
 
@@ -78,6 +84,14 @@ parseFeatTab <- function(featTab) {
     )
 
     return(info)
+}
+
+# helper function to ensure that returned value is always at least 1 long
+# and is NA if it should be
+extractSafely <- function(x) {
+    if(length(x) < 1 | all(x == '')) x <- NA
+
+    return(x)
 }
 
 # helper function to extract features by their names
