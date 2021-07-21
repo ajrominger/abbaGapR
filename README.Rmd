@@ -44,13 +44,14 @@ Now we need to get all sequence identifiers associated with those species:
 ```{r}
 goodNames <- cleanNames$ncbi_name[!is.na(cleanNames$ncbi_name)]
 seqIDs <-  getNCBISeqID(goodNames)
-seqIDs
+head(seqIDs)
 ```
 
-Finally we can feed those IDs into the function to retrieve the sequences themselves:
+Finally we can feed those IDs into the function to retrieve the sequences themselves. For the purpose of this example, we'll just look at a few sequences
 
 ```{r}
-seqData <- getGenBankSeqs(seqIDs)
+seqData <- getGenBankSeqs(seqIDs[1:2])
+seqData
 ```
 
 
