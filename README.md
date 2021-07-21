@@ -2,8 +2,9 @@
 
 # abbaGapR
 
-R package *abbaGapR* provides functions to download DNA sequence data
-from NCBI based on species names.
+R package *abbaGapR* (**A**mplicon-**b**ased **B**iodiversity
+**A**ssessment gap analysis in R) provides functions to download DNA
+sequence data from NCBI based on species names.
 
 ## Installation
 
@@ -11,8 +12,10 @@ from NCBI based on species names.
 installed using *devtools* (which is a stable package available on
 CRAN).
 
-    library(devtools)
-    install_github("ajrominger/abbaGapR")
+``` r
+library(devtools)
+install_github("ajrominger/abbaGapR")
+```
 
 ## Example usage
 
