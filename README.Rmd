@@ -7,20 +7,22 @@ output:
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, echo = FALSE}
-knitr::opts_chunk$set(collapse = FALSE, comment = '#')
+knitr::opts_chunk$set(collapse = FALSE, 
+                      comment = '#', 
+                      cache = TRUE)
 ```
 
 
 # abbaGapR
 
-R package *abbaGapR* provides functions to download DNA sequence data from NCBI based on species names.
+R package *abbaGapR* (**A**mplicon-**b**ased **B**iodiversity **A**ssessment gap analysis in R) provides functions to download DNA sequence data from NCBI based on species names.
 
 
 ## Installation
 
 *abbaGapR* is in active development and only exists on GitHub.  It can be installed using *devtools* (which is a stable package available on CRAN).
 
-```
+```{r install, eval=FALSE}
 library(devtools)
 install_github("ajrominger/abbaGapR")
 ```
@@ -30,7 +32,7 @@ install_github("ajrominger/abbaGapR")
 
 Suppose we have a list of species for which we want to retrieve sequence data. This list might include "bad names" (e.g. synonyms of misspellings).  We want to first correct as many of those bad names as we can.  Simultaneously, we'll compile all information about the taxonomic hierarchy of those species
 
-```{r}
+```{r cleanNames}
 library(abbaGapR)
 
 cleanNames <- getNCBITaxonomy(c('Idiomyia sproati', 'Drosophil murphy', 'no body'))
@@ -41,7 +43,7 @@ We were able to fix `Drosophil murphy`, making it `Drosophila murphyi`, and `Idi
 
 Now we need to get all sequence identifiers associated with those species:
 
-```{r}
+```{r seqIDs, dependson='cleanNames'}
 goodNames <- cleanNames$ncbi_name[!is.na(cleanNames$ncbi_name)]
 seqIDs <-  getNCBISeqID(goodNames)
 head(seqIDs)
@@ -49,7 +51,7 @@ head(seqIDs)
 
 Finally we can feed those IDs into the function to retrieve the sequences themselves. For the purpose of this example, we'll just look at a few sequences
 
-```{r}
+```{r seqData, dependson='seqIDs'}
 seqData <- getGenBankSeqs(seqIDs[1:2])
 seqData
 ```
