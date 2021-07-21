@@ -29,13 +29,6 @@ hierarchy of those species
 library(abbaGapR)
 
 cleanNames <- getNCBITaxonomy(c('Idiomyia sproati', 'Drosophil murphy', 'no body'))
-```
-
-    # No ENTREZ API key provided
-    #  Get one via taxize::use_entrez()
-    # See https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/
-
-``` r
 cleanNames
 ```
 

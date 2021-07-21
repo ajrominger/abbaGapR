@@ -32,7 +32,7 @@ install_github("ajrominger/abbaGapR")
 
 Suppose we have a list of species for which we want to retrieve sequence data. This list might include "bad names" (e.g. synonyms of misspellings).  We want to first correct as many of those bad names as we can.  Simultaneously, we'll compile all information about the taxonomic hierarchy of those species
 
-```{r cleanNames}
+```{r cleanNames, message=FALSE}
 library(abbaGapR)
 
 cleanNames <- getNCBITaxonomy(c('Idiomyia sproati', 'Drosophil murphy', 'no body'))
