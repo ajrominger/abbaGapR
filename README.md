@@ -71,18 +71,18 @@ seqData
 ```
 
     # $data
-    #                  accession            species        date pubmed
-    # INSDSeq  JAEIFY000000000.1 Drosophila sproati 16-JUN-2021     NA
-    # INSDSeq1 JAEIFX000000000.1 Drosophila murphyi 16-JUN-2021     NA
-    #                             pubDOI region product organelle region_note
-    # INSDSeq  10.1101/2020.12.14.422775     NA      NA        NA          NA
-    # INSDSeq1 10.1101/2020.12.14.422775     NA      NA        NA          NA
-    #                            latlon                            locality coll_date
-    # INSDSeq  19.574513 N 155.216191 W USA: Waiakea Forest Reserve, Hawaii  Jun-2019
-    # INSDSeq1 19.911621 N 155.313161 W                         USA: Hawaii  Apr-2018
-    #            coll_by specimen_id
-    # INSDSeq  Don Price          NA
-    # INSDSeq1 Don Price          NA
+    #           accession            species        date pubmed
+    # 1 JAEIFY000000000.1 Drosophila sproati 16-JUN-2021     NA
+    # 2 JAEIFX000000000.1 Drosophila murphyi 16-JUN-2021     NA
+    #                      pubDOI region product organelle region_note
+    # 1 10.1101/2020.12.14.422775     NA      NA        NA          NA
+    # 2 10.1101/2020.12.14.422775     NA      NA        NA          NA
+    #                     latlon                            locality coll_date
+    # 1 19.574513 N 155.216191 W USA: Waiakea Forest Reserve, Hawaii  Jun-2019
+    # 2 19.911621 N 155.313161 W                         USA: Hawaii  Apr-2018
+    #     coll_by specimen_id
+    # 1 Don Price          NA
+    # 2 Don Price          NA
     # 
     # $dna
     # [1] ">JAEIFY000000000.1\n" ">JAEIFX000000000.1\n"

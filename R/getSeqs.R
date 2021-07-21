@@ -53,6 +53,8 @@ getGenBankSeqs <- function(id) {
 
 
     out <- do.call(rbind, out)
+    rownames(out) <- NULL
+
     dna <- formatFASTA(out$accession, out$dna)
     out <- out[, names(out) != 'dna']
 
