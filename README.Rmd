@@ -1,0 +1,58 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = '#')
+```
+
+
+# abbaGapR
+
+R package *abbaGapR* provides functions to download DNA sequence data from NCBI based on species names.
+
+
+## Installation
+
+*abbaGapR* is in active development and only exists on GitHub.  It can be installed using *devtools* (which is a stable package available on CRAN).
+
+```
+library(devtools)
+install_github("ajrominger/abbaGapR")
+```
+
+
+## Example usage
+
+Suppose we have a list of species for which we want to retrieve sequence data. This list might include "bad names" (e.g. synonyms of misspellings).  We want to first correct as many of those bad names as we can.  Simultaneously, we'll compile all information about the taxonomic hierarchy of those species
+
+```{r}
+library(abbaGapR)
+
+cleanNames <- getNCBITaxonomy(c('Idiomyia sproati', 'Drosophil murphy', 'no body'))
+cleanNames
+```
+
+We were able to fix `Drosophil murphy`, making it `Drosophila murphyi`, and `Idiomyia sproati`, making it `Drosophila sproati`, but we couldn't match `no body`.
+
+Now we need to get all sequence identifiers associated with those species:
+
+```{r}
+goodNames <- cleanNames$ncbi_name[!is.na(cleanNames$ncbi_name)]
+seqIDs <-  getNCBISeqID(goodNames)
+seqIDs
+```
+
+Finally we can feed those IDs into the function to retrieve the sequences themselves:
+
+```{r}
+seqData <- getGenBankSeqs(seqIDs)
+```
+
+
+
+
